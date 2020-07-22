@@ -6,6 +6,8 @@ USERNAME = "email@gmail.com"
 PASSWORD = "password"
 SEARCH_CRITERIA = "ALL"
 VERBOSE = True
+FROM_ADDRESS = "email@gmail.com"
+TO_ADDRESS = "email@gmail.com"
 
 # Connect through IMAP
 imap_client = imaplib.IMAP4_SSL(IMAP_HOST)
@@ -35,6 +37,10 @@ for msg_id in messages_id_list:
     for response_part in msg_data:
         if isinstance(response_part, tuple):
             msg = email.message_from_bytes(response_part[1])
+
+            # Change FROM and TO header of the message
+            msg.replace_header("From", FROM_ADDRESS)
+            msg.replace_header("To", TO_ADDRESS)
 
 # Logout
 imap_client.close()
