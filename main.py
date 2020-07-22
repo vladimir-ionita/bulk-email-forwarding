@@ -1,4 +1,5 @@
 import imaplib
+import email
 
 IMAP_HOST = "imap.gmail.com"
 USERNAME = "email@gmail.com"
@@ -24,6 +25,16 @@ if VERBOSE:
     print("{} messages were found. Forwarding will start immediately.".format(len(messages_id_list)))
     print("Messages ids: {}".format(messages_id_list))
     print()
+
+# Fetch each message data
+for msg_id in messages_id_list:
+    status, msg_data = imap_client.fetch(msg_id, '(RFC822)')
+    if status != "OK":
+        raise Exception("Could not fetch email with id {}".format(msg_id))
+
+    for response_part in msg_data:
+        if isinstance(response_part, tuple):
+            msg = email.message_from_bytes(response_part[1])
 
 # Logout
 imap_client.close()
