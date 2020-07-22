@@ -1,13 +1,18 @@
 import imaplib
 import email
+import smtplib
+import time
 
 IMAP_HOST = "imap.gmail.com"
+SMTP_HOST = "smtp.gmail.com"
+SMTP_PORT = 587
 USERNAME = "email@gmail.com"
 PASSWORD = "password"
 SEARCH_CRITERIA = "ALL"
 VERBOSE = True
 FROM_ADDRESS = "email@gmail.com"
 TO_ADDRESS = "email@gmail.com"
+TIME_DELAY = 5
 
 # Open IMAP connection
 imap_client = imaplib.IMAP4_SSL(IMAP_HOST)
@@ -41,6 +46,21 @@ for msg_id in messages_id_list:
             # Change FROM and TO header of the message
             msg.replace_header("From", FROM_ADDRESS)
             msg.replace_header("To", TO_ADDRESS)
+
+            # Open SMTP connection
+            smtp_client = smtplib.SMTP(SMTP_HOST, SMTP_PORT)
+            smtp_client.starttls()
+            smtp_client.ehlo()
+            smtp_client.login(USERNAME, PASSWORD)
+
+            # Send message
+            smtp_client.sendmail(FROM_ADDRESS, TO_ADDRESS, msg.as_bytes())
+
+            # Close SMTP connection
+            smtp_client.close()
+
+            # Time delay until next command
+            time.sleep(TIME_DELAY)
 
 # Logout
 imap_client.close()
