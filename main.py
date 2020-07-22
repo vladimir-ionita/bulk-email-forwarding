@@ -96,6 +96,9 @@ while len(messages_sent) < len(messages_id_list):
             except smtplib.SMTPDataError:
                 raise Exception("Daily user sending quota exceeded.")
 
+if VERBOSE:
+    print("Job done. Enjoy your day!")
+
 # Logout
 imap_client.close()
 imap_client.logout()
