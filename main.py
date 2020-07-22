@@ -25,3 +25,6 @@ if VERBOSE:
     print("Messages ids: {}".format(messages_id_list))
     print()
 
+# Logout
+imap_client.close()
+imap_client.logout()
