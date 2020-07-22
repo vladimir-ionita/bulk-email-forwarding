@@ -79,7 +79,9 @@ while len(messages_sent) < len(messages_id_list):
                     print(messages_sent)
                     print("Time to take a break. Will start again in {} seconds.".format(EXCEPTION_TIME_DELAY))
                 time.sleep(EXCEPTION_TIME_DELAY)
-
+            except smtplib.SMTPServerDisconnected as exception:
+                if VERBOSE:
+                    print("Server disconnected: {}".format(exception))
 
 # Logout
 imap_client.close()
