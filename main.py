@@ -34,7 +34,10 @@ if VERBOSE:
     print()
 
 # Fetch each message data
-for msg_id in messages_id_list:
+messages_sent = []
+while len(messages_sent) < len(messages_id_list):
+    msg_id = messages_id_list[len(messages_sent)]
+
     status, msg_data = imap_client.fetch(msg_id, '(RFC822)')
     if status != "OK":
         raise Exception("Could not fetch email with id {}".format(msg_id))
@@ -55,6 +58,11 @@ for msg_id in messages_id_list:
 
             # Send message
             smtp_client.sendmail(FROM_ADDRESS, TO_ADDRESS, msg.as_bytes())
+            messages_sent.append(msg_id)
+            if VERBOSE:
+                print("Message {} was sent. {} emails from {} emails were forwarded.".format(msg_id,
+                                                                                             len(messages_sent),
+                                                                                             len(messages_id_list)))
 
             # Close SMTP connection
             smtp_client.close()
