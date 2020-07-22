@@ -9,7 +9,7 @@ VERBOSE = True
 FROM_ADDRESS = "email@gmail.com"
 TO_ADDRESS = "email@gmail.com"
 
-# Connect through IMAP
+# Open IMAP connection
 imap_client = imaplib.IMAP4_SSL(IMAP_HOST)
 imap_client.login(USERNAME, PASSWORD)
 
