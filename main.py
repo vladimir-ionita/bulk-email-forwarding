@@ -12,7 +12,9 @@ SEARCH_CRITERIA = "ALL"
 VERBOSE = True
 FROM_ADDRESS = "email@gmail.com"
 TO_ADDRESS = "email@gmail.com"
-TIME_DELAY = 5
+FORWARD_TIME_DELAY = 5
+EXCEPTION_TIME_DELAY = 60
+
 
 # Open IMAP connection
 imap_client = imaplib.IMAP4_SSL(IMAP_HOST)
@@ -50,25 +52,34 @@ while len(messages_sent) < len(messages_id_list):
             msg.replace_header("From", FROM_ADDRESS)
             msg.replace_header("To", TO_ADDRESS)
 
-            # Open SMTP connection
-            smtp_client = smtplib.SMTP(SMTP_HOST, SMTP_PORT)
-            smtp_client.starttls()
-            smtp_client.ehlo()
-            smtp_client.login(USERNAME, PASSWORD)
+            try:
+                # Open SMTP connection
+                smtp_client = smtplib.SMTP(SMTP_HOST, SMTP_PORT)
+                smtp_client.starttls()
+                smtp_client.ehlo()
+                smtp_client.login(USERNAME, PASSWORD)
 
-            # Send message
-            smtp_client.sendmail(FROM_ADDRESS, TO_ADDRESS, msg.as_bytes())
-            messages_sent.append(msg_id)
-            if VERBOSE:
-                print("Message {} was sent. {} emails from {} emails were forwarded.".format(msg_id,
-                                                                                             len(messages_sent),
-                                                                                             len(messages_id_list)))
+                # Send message
+                smtp_client.sendmail(FROM_ADDRESS, TO_ADDRESS, msg.as_bytes())
+                messages_sent.append(msg_id)
+                if VERBOSE:
+                    print("Message {} was sent. {} emails from {} emails were forwarded.".format(msg_id,
+                                                                                                 len(messages_sent),
+                                                                                                 len(messages_id_list)))
 
-            # Close SMTP connection
-            smtp_client.close()
+                # Close SMTP connection
+                smtp_client.close()
 
-            # Time delay until next command
-            time.sleep(TIME_DELAY)
+                # Time delay until next command
+                time.sleep(FORWARD_TIME_DELAY)
+            except smtplib.SMTPSenderRefused as exception:
+                if VERBOSE:
+                    print("Encountered an error! Error: {}".format(exception))
+                    print("Messages sent until now:")
+                    print(messages_sent)
+                    print("Time to take a break. Will start again in {} seconds.".format(EXCEPTION_TIME_DELAY))
+                time.sleep(EXCEPTION_TIME_DELAY)
+
 
 # Logout
 imap_client.close()
