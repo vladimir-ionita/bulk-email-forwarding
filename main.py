@@ -1,20 +1,20 @@
 import imaplib
 
-imap_host = "imap.gmail.com"
-username = "email@gmail.com"
-password = "password"
-search_criteria = "ALL"
+IMAP_HOST = "imap.gmail.com"
+USERNAME = "email@gmail.com"
+PASSWORD = "password"
+SEARCH_CRITERIA = "ALL"
 
 # Connect through IMAP
-imap_client = imaplib.IMAP4_SSL(imap_host)
-imap_client.login(username, password)
+imap_client = imaplib.IMAP4_SSL(IMAP_HOST)
+imap_client.login(USERNAME, PASSWORD)
 
 # Fetch messages' ID list
 status, _ = imap_client.select("INBOX", readonly=True)
 if status != "OK":
     raise Exception("Could not select connect to INBOX.")
 
-status, data = imap_client.search(None, search_criteria)
+status, data = imap_client.search(None, SEARCH_CRITERIA)
 if status != "OK":
     raise Exception("Could not search for emails.")
 
