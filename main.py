@@ -6,14 +6,18 @@ import time
 IMAP_HOST = "imap.gmail.com"
 SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT = 587
+
 USERNAME = "email@gmail.com"
 PASSWORD = "password"
 SEARCH_CRITERIA = "ALL"
-VERBOSE = True
+
 FROM_ADDRESS = "email@gmail.com"
 TO_ADDRESS = "email@gmail.com"
+
 FORWARD_TIME_DELAY = 5
 EXCEPTION_TIME_DELAY = 60
+VERBOSE = True
+
 
 
 # Open IMAP connection
