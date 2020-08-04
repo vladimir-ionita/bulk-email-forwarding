@@ -11,7 +11,7 @@ The script makes use of `imaplib` and `smtplib` libraries that are built-in in p
 To use the script there are a few changes you need to make:
 1. Change the `USERNAME` and the `PASSWORD` for your email account.
 2. Gmail, fortunately, by default, doesn't allow IMAP connections, as it is considered risky and unsecure. 
-You will have to enable this manually. Google `gmail enable less secure apps` and you'll find a way. 
+You will have to enable access for "Less secure apps" for this to work. Google `gmail enable less secure apps` and you'll find a way. 
 Also, if you'll try the script before enabling "Less secure apps", 
 Gmail will send you an email describing the problem and will show you the way to enable it.
 3. Change the `SEARCH_CRITERIA` according to your needs.
