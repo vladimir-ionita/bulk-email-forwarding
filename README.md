@@ -14,6 +14,7 @@ To use the script there are a few changes you need to make:
 You will have to enable access for "Less secure apps" for this to work. Google `gmail enable less secure apps` and you'll find a way. 
 Also, if you'll try the script before enabling "Less secure apps", 
 Gmail will send you an email describing the problem and will show you the way to enable it.
+Update (2023): you may need to use [App Passwords](https://support.google.com/accounts/answer/185833#zippy=%2Cwhy-you-may-need-an-app-password) instead of enabling less secure apps.
 3. Change the `SEARCH_CRITERIA` according to your needs.
 You can find more documentation for this here: [search command documentation](https://tools.ietf.org/html/rfc3501#section-6.4.4)
 4. Don't forget to disable `less secure apps` when you're done, for your safey.
